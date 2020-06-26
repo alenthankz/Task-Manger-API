@@ -11,9 +11,20 @@ const User =mongoose.model('user',{
     email:{
         type:String,
         required:true,
+        lowercase:true,
         validate(value){
             if (!validator.isEmail(value)){
                 throw new Error('invalid email');
+            }
+        }
+    },
+    password:{
+        type:String,
+        trim:true,
+        minlength:7,
+        validate(value){
+            if(value.toLowerCase().includes('password')){
+                throw new Error ("password cannot contain 'password'")
             }
         }
     },

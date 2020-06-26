@@ -1,6 +1,5 @@
 const mongoose =require('mongoose');
 
-
 Task =mongoose.model('task',{
     description:{
         type:String,
