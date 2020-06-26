@@ -1,8 +1,8 @@
 const mongoose =require('mongoose');
 const { default: validator } = require('validator');
+const bcrypt =require('bcryptjs')
 
-
-const User =mongoose.model('user',{
+userSchema=mongoose.Schema({
     name:{
         type:String,
         trim:true,
@@ -38,6 +38,15 @@ const User =mongoose.model('user',{
         }
     }
 })
+
+userSchema.pre('save',async function(next){
+    const user =this
+    if(user.isModified('password')){
+        user.password =await bcrypt.hash(user.password,8)
+    }
+    next()
+})
+const User =mongoose.model('user',userSchema)
 // //when saved to mongodb user small u not captial U 
 //  const me =new User({
 //      name:'alen thankachan     ',
