@@ -2,7 +2,7 @@ const mongoose =require('mongoose');
 const { default: validator } = require('validator');
 const bcrypt =require('bcryptjs')
 const jwt =require('jsonwebtoken');
-
+const Task =require('./task')
 
 
 userSchema=mongoose.Schema({
@@ -71,6 +71,11 @@ userSchema.methods.toJSON =function(){
 
 //     return userObject
 // }
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
+})
 userSchema.statics.findByCredentails= async(email,password)=>{
     const user = await User.findOne({email})
     if (!user){
@@ -88,6 +93,12 @@ userSchema.pre('save',async function(next){
     if(user.isModified('password')){
         user.password =await bcrypt.hash(user.password,8)
     }
+    next()
+})
+
+userSchema.pre('delete',async function(next){
+    const user =this
+    await Task.deleteMany({owner:user._id})
     next()
 })
 const User =mongoose.model('user',userSchema)

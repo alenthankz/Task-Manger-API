@@ -1,2 +1,2 @@
 # TaskApp
-/Users/ALEN/mongodb/bin/mongod.exe --dbpath/Users/ALEN/mongodb-data
+/Users/ALEN/mongodb/bin/mongod.exe --dbpath=/Users/ALEN/mongodb-data
