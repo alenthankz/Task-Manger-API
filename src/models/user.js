@@ -44,7 +44,10 @@ userSchema=mongoose.Schema({
     tokens:[{
         token:String,
         //required:true
-    }]
+    }],
+    avatar:{
+        type:Buffer
+    }
 },{
     timestamps:true
 })
@@ -69,7 +72,7 @@ userSchema.methods.toJSON =function(){
 
     delete userObject.password
     delete userObject.tokens
-
+    delete userObject.avatar
     return userObject
 }
 // userSchema.methods.toJSON = function () {
