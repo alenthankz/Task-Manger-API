@@ -18,5 +18,5 @@ const port =process.env.PORT || 3000;
 
 
 app.listen(port,()=>{
-    console.log('port 3000 lisnening');
+    console.log('port '+port+ ' lisnening');
 })
