@@ -68,14 +68,39 @@ router.get('/tasks/:id',auth,async(req,res)=>{
 
 router.get('/tasks',auth,async (req,res)=>{
     try{
-        // await req.user.populate('tasks').execPopulate()
-        // res.send(req.user.tasks)
+        const match={}
+        if(req.query.completed){
+              match.completed =req.query.completed==='true'
+        }
+        const sort={}
+        if(req.query.sortBy){
+            parts=req.query.sortBy.split(':')
+            sort[parts[0]]=parts[1]==='desc'?-1:1;
+        }
+        await req.user.populate({
+            path:'tasks',
+            match,
+            options:{
+                limit:parseInt(req.query.limit),
+                skip:parseInt(req.query.skip),
+                sort
+            }
+        }).execPopulate()
+        res.send(req.user.tasks)
         
-        const tasks=await Task.find({owner:req.user._id})
-        res.status(201).send(tasks)
+        
+        // const findObj={
+        //     owner:req.user._id
+        // }
+        // if(req.query.completed){
+        //      const match =req.query.completed==='true'
+        //      findObj.completed=match
+        // }
+        // const tasks=await Task.find(findObj)
+        // res.status(201).send(tasks)
 
     }catch(e){
-        res.status(500).send();
+        res.status(500).send(e);
     }
     // Task.find({}).then((tasks)=>{
     //     res.status(201).send(tasks)

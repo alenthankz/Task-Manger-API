@@ -45,7 +45,17 @@ userSchema=mongoose.Schema({
         token:String,
         //required:true
     }]
+},{
+    timestamps:true
 })
+
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
+
 userSchema.methods.generateAuthToken =async function(){
     const user =this
     const token = jwt.sign({_id:user._id.toString()},'toverifytheid')
@@ -71,11 +81,7 @@ userSchema.methods.toJSON =function(){
 
 //     return userObject
 // }
-userSchema.virtual('tasks', {
-    ref: 'Task',
-    localField: '_id',
-    foreignField: 'owner'
-})
+
 userSchema.statics.findByCredentails= async(email,password)=>{
     const user = await User.findOne({email})
     if (!user){
@@ -101,7 +107,7 @@ userSchema.pre('delete',async function(next){
     await Task.deleteMany({owner:user._id})
     next()
 })
-const User =mongoose.model('user',userSchema)
+const User =mongoose.model('User',userSchema)
 // //when saved to mongodb user small u not captial U 
 //  const me =new User({
 //      name:'alen thankachan     ',
