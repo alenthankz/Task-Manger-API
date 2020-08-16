@@ -8,10 +8,10 @@ const auth =require('../middleware/auth')
 // router.post('/users/signup',async (req,res)=>{
 //     const user =new User(req.body)
 //     try{
-//         await user.save()  
+//         await user.save()
 //         res.status(200).send(user)
 //     }catch(e){
-//          res.status(400).send(e)   
+//          res.status(400).send(e)
 //     }
 // })
 
@@ -26,7 +26,7 @@ router.post('/users/login',async (req,res)=>{
 })
 
 router.post('/users',async (req,res)=>{
-    
+
     const user=new User(req.body)
     try{
         await user.save()
@@ -40,10 +40,10 @@ router.post('/users',async (req,res)=>{
     //     res.status(201).send(user);
     // }).catch((error)=>{
     //     res.status(400).send(error);
-        
+
     // })
-    
-    
+
+
 })
 
 router.post('/users/logout',auth,async (req,res)=>{
@@ -168,7 +168,7 @@ router.patch('/users/me',auth,async (req,res)=>{
 //     }catch(e){
 //         res.status(400).send()
 //     }
-    
+
 // })
 
 router.delete('/users/me',auth,async (req,res)=>{
@@ -182,7 +182,7 @@ router.delete('/users/me',auth,async (req,res)=>{
     }catch(e){
         res.status(500).send()
     }
-    
+
 })
 
 const upload =multer({
@@ -203,7 +203,7 @@ router.post('/users/me/avatar',auth,upload.single('avatar'),async (req,res)=>{
     req.user.avatar=buffer
     //req.user.avatar=req.file.buffer
     await req.user.save()
-    
+
     res.status(200).send()
 },(error,req,res,next)=>{
     res.status(400).send({error:error.message})
@@ -211,7 +211,7 @@ router.post('/users/me/avatar',auth,upload.single('avatar'),async (req,res)=>{
 router.delete('/users/me/avatar',auth,async (req,res)=>{
     req.user.avatar =undefined
     await req.user.save()
-    
+
     res.status(200).send()
 },(error,req,res,next)=>{
     res.status(400).send({error:error.message})

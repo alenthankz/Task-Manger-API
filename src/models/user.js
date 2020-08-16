@@ -111,7 +111,7 @@ userSchema.pre('delete',async function(next){
     next()
 })
 const User =mongoose.model('User',userSchema)
-// //when saved to mongodb user small u not captial U 
+// //when saved to mongodb user small u not captial U
 //  const me =new User({
 //      name:'alen thankachan     ',
 //      email:'123@gmail.com',
